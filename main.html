@@ -1,13 +1,57 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Validation</title>
+</head>
+<body>
+    <h1>Vote Eligibility</h1>
+    <form id="voteForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br><br>
 
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+        <label for="age">Age:</label>
+        <input type="number" id="age" required><br><br>
 
-  <body>
-    <!-- write the body here -->
+        <button type="submit" id="btn">Submit</button>
+    </form>
 
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+    <script>
+        // Function to handle form submission
+        document.getElementById('voteForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get the values from the form
+            const name = document.getElementById('name').value.trim();
+            const age = parseInt(document.getElementById('age').value.trim());
+
+            // Validation: Ensure name and age are not empty
+            if (!name || isNaN(age) || age <= 0) {
+                alert("Please enter valid details.");
+                return;
+            }
+
+            // Create the promise logic
+            const voteEligibility = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (age >= 18) {
+                        resolve(`Welcome, ${name}. You can vote.`);
+                    } else {
+                        reject(`Oh sorry ${name}. You aren't old enough.`);
+                    }
+                }, 4000); // 4-second delay
+            });
+
+            // Handle promise resolution and rejection
+            voteEligibility
+                .then(successMessage => {
+                    alert(successMessage); // If the age is >= 18, show success message
+                })
+                .catch(errorMessage => {
+                    alert(errorMessage); // If the age is < 18, show failure message
+                });
+        });
+    </script>
+</body>
 </html>
